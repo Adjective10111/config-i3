@@ -1,0 +1,14 @@
+#!/bin/bash
+
+path="$HOME/.config/i3"
+config="$path/config"
+cp "$path/i3.env.conf" "$config"
+
+find "$path" -type f \( ! -name "config" -and ! -wholename "*/.git*" -and ! -name "*.env.*" -and ! -name "config.gen" \) \
+	-printf "%d > %p\n" \
+	| sort -n | awk -F ' > ' '{print $2}' \
+	| while read -r file
+do
+	echo -e "\n\n# -- $(realpath -s --relative-to="$path" "$file")" >> "$config"
+	cat "$file" >> "$config"
+done
