@@ -4,67 +4,90 @@ if [ -z "$1" ]; then
 	exit 1;
 fi
 LOCK_WALLPAPER="$1"
+
+# COLOR
 BLANK='00000000'
 BLACK='000000ff'
 CLEAR='ffffff22'
 DEFAULT='555555ff'
 TEXT='112222ff'
-WRONG='cc2222ff'
 VERIFYING='2222ccff'
+WRONG='cc2222ff'
+# SIZE
 RADIUS=120
-TEXT_FONT="Karumbi"
+RING_WIDTH=7
+STATE_SIZE=25
+TIME_SIZE=45
+DATE_SIZE=20
+DATE_OW=.4
+LAYOUT_SIZE=14
+# FONT
+STATE_FONT="Lobster Two"
+TIME_FONT="Lobster Two"
+DATE_FONT="$TIME_FONT"
+LAYOUT_FONT="Lobster Two"
+# POSITIONS
+TIME_POS="ix:iy-($RADIUS*.2)"
+DATE_POS="ix:iy+($RADIUS*.25)"
+LAYOUT_POS="ix:iy+($RADIUS*.8)"
+# FORMATS
+TIME_FMT="%H:%M"
+DATE_FMT="%A, %B-%d"
 
+# Make sure layout is EN_US
 xkb-switch -s us
 
-i3lock --nofork \
--i $LOCK_WALLPAPER \
+i3lock								\
+--nofork							\
+--indicator           \
+--clock								\
+--pass-media-keys			\
+--pass-screen-keys		\
+--pass-power-keys			\
+--pass-volume-keys		\
 \
---radius $RADIUS \
---ring-width 8.5 \
---inside-color=$BLANK        \
---ring-color=$DEFAULT        \
+--screen 1            \
+--keylayout 1         \
+\
+-i $LOCK_WALLPAPER			\
+--radius $RADIUS						 \
+--ring-width $RING_WIDTH		 \
 --line-color=$BLANK          \
+--ring-color=$DEFAULT        \
+--inside-color=$BLANK        \
 --separator-color=$DEFAULT   \
---keyhl-color=$VERIFYING         \
 --bshl-color=$WRONG          \
---indicator                  \
+--keyhl-color=$VERIFYING     \
 \
---insidever-color=$CLEAR     \
 --ringver-color=$VERIFYING   \
+--insidever-color=$CLEAR     \
 --verif-color=$TEXT          \
+--verif-size=$STATE_SIZE		 \
+--verif-font="$STATE_FONT"	 \
 \
---insidewrong-color=$CLEAR   \
 --ringwrong-color=$WRONG     \
+--insidewrong-color=$CLEAR   \
 --wrong-color=$TEXT          \
+--wrong-size=$STATE_SIZE		 \
+--wrong-font="$STATE_FONT"	 \
 \
---clock                      \
---time-color=$TEXT           \
---date-color=$TEXT           \
---layout-color=$TEXT         \
---time-str="%H:%M"					\
---date-str="%A, %B-%d"       \
---time-pos="ix:iy-($RADIUS*.2)"	\
---date-pos="ix:iy+($RADIUS*.25)"			\
---layout-pos="ix:iy+($RADIUS*.8)"			\
+--time-color=$TEXT						\
+--time-str="$TIME_FMT"				\
+--time-pos="$TIME_POS"				\
+--time-size=$TIME_SIZE				\
+--time-font="$TIME_FONT"			\
+--timeoutline-color="$BLACK"	\
 \
---timeoutline-color="$BLACK"								\
---time-font="Manjari"								\
---time-size=50											\
---date-font="$TEXT_FONT"						\
---dateoutline-color="$BLACK"								\
---dateoutline-width=.4								\
---date-size=30										\
---verif-font="$TEXT_FONT"					\
---verif-size=40										\
---wrong-font="$TEXT_FONT"						\
---wrong-size=40											\
---layout-font="Uroob"							\
---layout-size=10										\
+--date-color=$TEXT						\
+--date-str="$DATE_FMT"				\
+--date-pos="$DATE_POS"				\
+--date-size=$DATE_SIZE				\
+--date-font="$DATE_FONT"			\
+--dateoutline-width=$DATE_OW	\
+--dateoutline-color="$BLACK"	\
 \
---screen 1                   \
---keylayout 1                \
-\
---pass-media-keys \
---pass-screen-keys \
---pass-power-keys \
---pass-volume-keys 
+--layout-color=$TEXT					\
+--layout-pos="$LAYOUT_POS"		\
+--layout-size=$LAYOUT_SIZE		\
+--layout-font="$LAYOUT_FONT"
+
